@@ -37,9 +37,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo "DEPLOY_ENV: ${params.DEPLOY_ENV}"
+                echo params.DEPLOY_ENV
                 echo "DEPLOY_INFO: $params.DEPLOY_INFO"
-                echo params.IS_ADMIN
+                echo "$params.IS_ADMIN"
                 echo "Which platform did you chose: ${params.PLATFORM}"
                 echo "What is your password: ${params.PASSWORD}"
             }
