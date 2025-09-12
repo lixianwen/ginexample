@@ -1,7 +1,11 @@
 pipeline {
     // Instructs Jenkins to allocate an executor and workspace for the Pipeline, 
     // ensures that the source repository is checked out and made available for steps in the subsequent stages.
-    agent any
+    agent {
+	docker {
+		image 'golang:1.24-alpine'
+	}
+    }
 
     environment {
         GITHUB_PERSIONAL_ACCESS_TOKEN = credentials('GitHub-PAT')        
@@ -18,7 +22,10 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo env.BRANCH_NAME
+                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN')
+                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_USR')
+                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_PSW')
             }
         }
         stage('Build') {
@@ -26,13 +33,8 @@ pipeline {
                 CGO_ENABLED = 0
             }
             steps {
-                // sh 'go build -o myapp'
-                // archiveArtifacts artifacts: 'myapp', fingerprint: true
-                echo env.BRANCH_NAME
-                echo "$CGO_ENABLED"
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN')
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_USR')
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_PSW')
+                sh 'go build -o myapp'
+                archiveArtifacts artifacts: 'myapp', fingerprint: true
             }
         }
         stage('Deploy') {
