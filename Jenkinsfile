@@ -19,5 +19,24 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            agent {
+                kubernetes {
+                    yaml '''
+                      apiVersion: v1
+                      kind: Pod
+                      spec:
+                        containers:
+                          - name: go
+                            image: golang:1.24-alpine
+                      '''
+                }
+            }
+            steps {
+                container('go') {
+                    go test $(go list ./... | grep -v /vendor/)
+                }
+            }
+        }
     }
 }
