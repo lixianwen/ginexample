@@ -4,18 +4,18 @@ pipeline {
     agent {
         kubernetes {
             yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: dind
-    image: docker:dind
-    imagePullPolicy: Always
-    args:
-      - "--insecure-registry=192.168.31.162:5000"
-    securityContext:
-      privileged: true
-'''
+              apiVersion: v1
+              kind: Pod
+              spec:
+                containers:
+                - name: dind
+                  image: docker:dind
+                  imagePullPolicy: Always
+                  args:
+                    - "--insecure-registry=192.168.31.162:5000"
+                  securityContext:
+                    privileged: true
+              '''
         }
     }
 
