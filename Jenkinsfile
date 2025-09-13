@@ -2,9 +2,7 @@ pipeline {
     // Instructs Jenkins to allocate an executor and workspace for the Pipeline, 
     // ensures that the source repository is checked out and made available for steps in the subsequent stages.
     agent {
-        docker {
-            image 'docker:dind'
-        }
+        label 'dind'
     }
 
     stages {
