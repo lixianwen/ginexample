@@ -29,6 +29,10 @@ pipeline {
                         containers:
                           - name: go
                             image: golang:1.24-alpine
+                            command:
+                              - sleep
+                            args:
+                              - 9999999
                       '''
                 }
             }
