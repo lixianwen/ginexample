@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -v -o /usr/local/bin/app .
+RUN go build -o /usr/local/bin/app .
 
 FROM alpine
 
