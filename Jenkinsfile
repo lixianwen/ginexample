@@ -2,50 +2,18 @@ pipeline {
     // Instructs Jenkins to allocate an executor and workspace for the Pipeline, 
     // ensures that the source repository is checked out and made available for steps in the subsequent stages.
     agent {
-	docker {
-		image 'golang:1.24-alpine'
-	}
-    }
-
-    environment {
-        GITHUB_PERSIONAL_ACCESS_TOKEN = credentials('GitHub-PAT')        
-    }
-
-    parameters {
-       string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: 'whatever')
-       text(name: 'DEPLOY_INFO', defaultValue: 'One\nTwo\nThree\n', description: 'What can I say?')
-       booleanParam(name: 'IS_ADMIN', defaultValue: false, description: '')
-       choice(name: 'PLATFORM', choices: ['Linux', 'Windows', 'MacOS'], description: '')
-       password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'A secret password')
+        docker {
+            image 'docker:dind'
+        }
     }
 
     stages {
-        stage('Test') {
+        stage('Build Image') {
             steps {
-                echo env.BRANCH_NAME
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN')
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_USR')
-                sh('echo $GITHUB_PERSIONAL_ACCESS_TOKEN_PSW')
-            }
-        }
-        stage('Build') {
-            environment {
-                CGO_ENABLED = 0
-            }
-            steps {
-                sh 'go build -o myapp'
-                archiveArtifacts artifacts: 'myapp', fingerprint: true
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo params.DEPLOY_ENV
-                echo "DEPLOY_INFO: $params.DEPLOY_INFO"
-                echo "$params.IS_ADMIN"
-                echo "Which platform did you chose: ${params.PLATFORM}"
-                echo "What is your password: ${params.PASSWORD}"
+                docker.withRegistry('http://192.168.31.162:5000') {
+                    docker.build('lixianwen/ginexample').push(env.BUILD_TAG)
+                }
             }
         }
     }
 }
-
