@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 container('go') {
-                    go test $(go list ./... | grep -v /vendor/)
+                    sh 'go test $(go list ./... | grep -v /vendor/)'
                 }
             }
         }
