@@ -10,8 +10,10 @@ pipeline {
     stages {
         stage('Build Image') {
             steps {
-                docker.withRegistry('http://192.168.31.162:5000') {
-                    docker.build('lixianwen/ginexample').push(env.BUILD_TAG)
+                script {
+                    docker.withRegistry('http://192.168.31.162:5000') {
+                        docker.build('lixianwen/ginexample').push(env.BUILD_TAG)
+                    }
                 }
             }
         }
