@@ -1,1 +1,1 @@
-# ginexample
+# Gin framework examples for Jenkins
