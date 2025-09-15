@@ -4,7 +4,7 @@ pipeline {
     agent none
 
     environment {
-        REGISTRY = '192.168.31.215:5000'
+        REGISTRY = '192.168.31.162:5000'
         REPO = 'lixianwen/ginexample'
     }
 
@@ -18,8 +18,8 @@ pipeline {
             steps {
                 container('dind') {
                     script {
-                        docker.withRegistry("http://${REGISTRY}") {
-                            docker.build($REPO).push(env.BUILD_TAG)
+                        docker.withRegistry("http://${env.REGISTRY}") {
+                            docker.build(env.REPO).push(env.BUILD_TAG)
                         }
                     }
                 }
