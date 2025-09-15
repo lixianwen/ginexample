@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: 192.168.31.215:5000/lixianwen/ginexample
+          image: 192.168.31.162:5000/lixianwen/ginexample
           ports:
             - containerPort: 2815
 ---
