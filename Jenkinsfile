@@ -55,6 +55,7 @@ pipeline {
                       apiVersion: v1
                       kind: Pod
                       spec:
+                        serviceAccountName: jenkins-agent
                         containers:
                           - name: kubectl
                             image: lachlanevenson/k8s-kubectl
