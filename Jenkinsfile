@@ -57,7 +57,7 @@ pipeline {
                       spec:
                         containers:
                           - name: kubectl
-                            image: bitnami/kubectl
+                            image: lachlanevenson/k8s-kubectl
                             command:
                               - sleep
                             args:
