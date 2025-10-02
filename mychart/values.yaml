@@ -1,0 +1,9 @@
+image:
+  registry: 192.168.31.162:5000
+  repository: lixianwen/ginexample
+  pullPolicy: IfNotPresent
+  tag: ""
+
+service:
+  type: NodePort
+  port: 2815

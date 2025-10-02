@@ -67,8 +67,11 @@ pipeline {
             steps {
                 container('kubectl') {
                     sh '''
-                      sed -i "s|${REGISTRY}/${REPO}.*|${REGISTRY}/${REPO}:${BUILD_TAG}|" deployment.yaml
-                      kubectl apply -f deployment.yaml
+                      helm upgrade ginexample ./mychart/ \
+                      --install \
+                      --wait \
+                      --timeout=5m0s \
+                      --set image.tag=${BUILD_TAG}
                       '''
                 }
             }
