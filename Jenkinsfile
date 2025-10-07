@@ -55,8 +55,8 @@ pipeline {
                       spec:
                         serviceAccountName: jenkins-agent
                         containers:
-                          - name: kubectl
-                            image: lachlanevenson/k8s-kubectl
+                          - name: helm
+                            image: alpine/helm:3
                             command:
                               - sleep
                             args:
@@ -65,7 +65,7 @@ pipeline {
                 }
             }
             steps {
-                container('kubectl') {
+                container('helm') {
                     sh '''
                       helm upgrade ginexample ./mychart/ \
                       --install \
